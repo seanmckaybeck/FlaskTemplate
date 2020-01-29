@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>{{cookiecutter.project_name}}</title>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% set active_page = active_page|default('index') -%}
+    <ul id="navigation">
+      {% for href, id, caption in navigation_bar %}
+        <li{% if id == active_page %} class="active"{% endif %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
+      {% endfor %}
+    </ul>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+  </head>
+  <body>
+    {% block content %}{% endblock %}
+  </body>
+</html>

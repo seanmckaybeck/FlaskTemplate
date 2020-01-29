@@ -1,0 +1,7 @@
+cookiecutter
+flask
+flask-script
+flask-wtf
+flask-sqlalchemy
+flask-hashing
+flask-login

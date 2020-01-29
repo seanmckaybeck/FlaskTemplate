@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% set active_page="login" %}
+{% set navigation_bar = [
+    (url_for('index'), 'index', 'Home'),
+    (url_for('login'), 'login', 'Login'),
+    (url_for('register'), 'register', 'Register')
+    ] %}
+{% block content %}
+<form method="POST" action="{{ url_for('login') }}">
+    {{ form.csrf_token }}
+    {{ form.email.label }} {{ form.email() }}<br>
+    {{ form.password.label }} {{ form.password() }}<br>
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}
