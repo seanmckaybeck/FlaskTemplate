@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% set active_page="index" %}
 {% set navigation_bar = [
-    (url_for('index'), 'index', 'Home'),
-    (url_for('login'), 'login', 'Login'),
-    (url_for('register'), 'register', 'Register')
+    (url_for('main.index'), 'index', 'Home'),
+    (url_for('auth.login'), 'login', 'Login'),
+    (url_for('auth.register'), 'register', 'Register')
     ] %}
 {% block content %}
 <p>Welcome to index</p>

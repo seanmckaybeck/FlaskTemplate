@@ -1,7 +1,9 @@
 cookiecutter
 flask
+flask-mail
 flask-script
 flask-wtf
 flask-sqlalchemy
 flask-hashing
 flask-login
+pyjwt

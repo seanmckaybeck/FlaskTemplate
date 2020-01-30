@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% set active_page="login" %}
+{% set navigation_bar = [
+    (url_for('main.index'), 'index', 'Home'),
+    (url_for('auth.login'), 'login', 'Login'),
+    (url_for('auth.register'), 'register', 'Register')
+    ] %}
+{% block content %}
+<form method="POST" action="{{ url_for('auth.login') }}">
+    {{ form.csrf_token }}
+    {{ form.email.label }} {{ form.email() }}<br>
+    {{ form.password.label }} {{ form.password() }}<br>
+    <input type="submit" value="Submit">
+</form>
+<p>
+    Forgot Your Password?
+    <a href="{{ url_for('auth.reset_password_request') }}">Click to Reset It</a>
+</p>
+{% endblock %}
