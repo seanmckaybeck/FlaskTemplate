@@ -1,16 +1,21 @@
+{% raw %}
 {% extends "base.html" %}
 {% set active_page="register" %}
-{% set navigation_bar = [
-    (url_for('main.index'), 'index', 'Home'),
-    (url_for('auth.login'), 'login', 'Login'),
-    (url_for('auth.register'), 'register', 'Register')
-    ] %}
 {% block content %}
-<form action="{{ url_for('auth.register') }}" method="POST">
-    {{ form.csrf_token }}
-    {{ form.email.label }} {{ form.email() }}<br>
-    {{ form.password.label }} {{ form.password() }}<br>
-    {{ form.confirm.label }} {{ form.confirm() }}<br>
-    <input type="submit" value="Submit">
-</form>
+<div class="container">
+    <form action="{{ url_for('auth.register') }}" method="POST">
+        {{ form.csrf_token }}
+        <div class="form-group">
+            {{ form.email.label }} {{ form.email(class_="form-control") }}<br>
+        </div>
+        <div class="form-group">
+            {{ form.password.label }} {{ form.password(class_="form-control") }}<br>
+        </div>
+        <div class="form-group">
+            {{ form.confirm.label }} {{ form.confirm(class_="form-control") }}<br>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Submit">
+    </form>
+</div>
 {% endblock %}
+{% endraw %}

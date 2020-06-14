@@ -15,6 +15,8 @@ from . import auth_blueprint
 # ----------------
 # helper functions
 # ----------------
+
+
 def flash_errors(form):
     for field, errors in form.errors.items():
         for error in errors:
@@ -95,10 +97,13 @@ def register():
             # registration token
             # ------------------
             token = User.generate_confirmation_token(user.email)
-            confirm_url = flask.url_for('auth.confirm_email', token=token, _external=True)
-            html = flask.render_template('auth/activate.html', confirm_url=confirm_url)
-            utils.send_email(user, html)  # TODO
-            flask.flash('A confirmation email has been sent via email.', 'success')
+            confirm_url = flask.url_for(
+                'auth.confirm_email', token=token, _external=True)
+            html = flask.render_template(
+                'auth/activate.html', confirm_url=confirm_url)
+            # utils.send_email(user, html)  # TODO
+            flask.flash(
+                'A confirmation email has been sent via email.', 'success')
             flask_login.login_user(user)
             return flask.redirect(flask.url_for('auth.unconfirmed'))
         else:
@@ -115,7 +120,8 @@ def confirm_email(token: str):
     try:
         email = User.confirm_token(token)
     except:
-        flask.flash('The confirmation link is invalid or has expired.', 'danger')
+        flask.flash(
+            'The confirmation link is invalid or has expired.', 'danger')
         return flask.redirect(flask.url_for('auth.unconfirmed'))
     user = User.query.get(email)
     if user:
@@ -146,9 +152,10 @@ def unconfirmed():
 @flask_login.login_required
 def resend_confirmation():
     token = User.generate_confirmation_token(flask_login.current_user.email)
-    confirm_url = flask.url_for('auth.confirm_email', token=token, _external=True)
+    confirm_url = flask.url_for(
+        'auth.confirm_email', token=token, _external=True)
     html = flask.render_template('auth/activate.html', confirm_url=confirm_url)
-    utils.send_email(current_user, html)  # TODO
+    # utils.send_email(current_user, html)  # TODO
     flask.flash('A new confirmation email has been sent.', 'success')
     return flask.redirect(flask.url_for('auth.unconfirmed'))
 
@@ -165,7 +172,8 @@ def reset_password_request():
         flask.flash('Check your email for instructions to reset your password')
         return flask.redirect(flask.url_for('auth.login'))
     return flask.render_template('auth/reset_password_form.html',
-                           title='Reset Password', form=form)
+                                 title='Reset Password', form=form)
+
 
 @auth_blueprint.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token: str):
