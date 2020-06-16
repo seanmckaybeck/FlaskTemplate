@@ -1,24 +1,111 @@
-<html>
-  <head>
-    <title>{{cookiecutter.project_name}}</title>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    {% set active_page = active_page|default('index') -%}
-    <ul id="navigation">
-      {% for href, id, caption in navigation_bar %}
-        <li{% if id == active_page %} class="active"{% endif %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
-      {% endfor %}
-    </ul>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <ul class=flashes>
-        {% for category, message in messages %}
-        <li class="{{ category }}">{{ message }}</li>
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <title>{{cookiecutter.project}}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="TODO">
+  <meta name="robots" content="index, follow" />
+
+  <!-- See https://goo.gl/qRE0vM -->
+  <meta name="theme-color" content="#000000">
+
+  <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="{{cookiecutter.project}}">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="{{cookiecutter.project}}">
+  {% raw %}
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inria+Serif&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+
+  <script src="{{ url_for('static', filename='js/main.js') }}" async></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+  </script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    {% endraw %}
+    <a class="navbar-brand" href="#">{{cookiecutter.project}}</a>
+    {%raw%}
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        {% if current_user.is_authenticated %}
+        {% set navigation_bar = [
+          (url_for('main.index'), 'index', 'Home'),
+          (url_for('auth.logout'), 'logout', 'Logout'),
+          ] %}
+        {% else %}
+        {% set navigation_bar = [
+          (url_for('main.index'), 'index', 'Home'),
+          (url_for('auth.login'), 'login', 'Login'),
+          (url_for('auth.register'), 'register', 'Register'),
+          ] %}
+        {% endif %}
+        {% set active_page = active_page|default('index') -%}
+        {% for href, id, caption in navigation_bar %}
+        <li {% if id == active_page %}class="nav-item active" {%else%}class="nav-item" {%endif%}>
+          <a class="nav-link" href="{{ href|e}}">{{caption|e}}</a>
+        </li>
         {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-  </head>
-  <body>
-    {% block content %}{% endblock %}
-  </body>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  {%endif%}
+  {%endwith%}
+</head>
+
+<body>
+  <div class="container main-content">
+    <header>
+      {% block header %}{% endblock %}
+    </header>
+  </div>
+
+  {% block content %}
+  {% endblock %}
+  {% endraw %}
+
+  <!-- FOOTER -->
+  <footer class="text-muted">
+    <div class="container">
+      <p class="text-center">{{cookiecutter.project}}</p>
+    </div>
+  </footer>
+</body>
+
 </html>

@@ -7,3 +7,4 @@ flask-sqlalchemy
 flask-hashing
 flask-login
 pyjwt
+email_validator

@@ -1,4 +1,4 @@
 {
-    "project": "MyFlaskProject"
+    "project": "MyFlaskProject",
     "project_name": "{{cookiecutter.project.lower().replace(' ', '_')}}"
 }

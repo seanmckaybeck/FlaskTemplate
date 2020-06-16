@@ -1,7 +1,7 @@
 import os
 
-from flask.ext.script import Manager, Command
-from flask.ext.hashing import Hashing
+from flask_script import Manager, Command
+from flask_hashing import Hashing
 
 from {{cookiecutter.project_name}} import create_app, db
 from {{cookiecutter.project_name}}.models import User

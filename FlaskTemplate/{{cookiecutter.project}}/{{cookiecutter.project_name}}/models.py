@@ -9,6 +9,7 @@ import flask
 import itsdangerous
 import jwt
 
+from typing import Tuple
 from . import db, hashing
 
 
